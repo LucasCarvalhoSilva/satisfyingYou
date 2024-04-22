@@ -17,10 +17,6 @@ export function CreateAccount() {
     return (
         <View style={estilo.container}>
             <View style={estilo.content}>
-                <View style={estilo.titleWrapper}>
-                    <Title title='Satisfaying.you' />
-                    <Icon name="sentiment-satisfied" size={48} color="#FFFFFF" />
-                </View>
                 <View>
                     <View style={estilo.formWrapper}>
                         <Label text='E-mail'/>

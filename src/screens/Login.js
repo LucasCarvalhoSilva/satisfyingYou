@@ -6,12 +6,21 @@ import { Input } from "../components/Input"
 import { useState } from "react"
 import { Button } from "../components/Button"
 import { ErrorMessage } from "../components/ErrorMessage"
+import { CreateAccount } from "./CreateAccount"
 
-export function Login() {
+export function Login(props) {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [errMessage, setErrMessage] = useState('')
+
+    function goToRecovery(){
+        props.navigation.navigate('RecoveryPassword')
+    }
+
+    function goToCreate(){
+        props.navigation.navigate('CreateAccount')
+    }
 
     return (
         <View style={estilo.container}>
@@ -44,10 +53,10 @@ export function Login() {
                         <ErrorMessage text={errMessage}/>
                     </View>
                     <Button title="Entrar"/>
-                    <TouchableOpacity style={estilo.btnCreateAccount}>
+                    <TouchableOpacity style={estilo.btnCreateAccount} onPress={goToCreate}>
                         <Text style={estilo.btnText}>Criar minha conta</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={estilo.btnPasswordRecovery}>
+                    <TouchableOpacity style={estilo.btnPasswordRecovery} onPress={goToRecovery}>
                         <Text style={estilo.btnText}>Esqueci minha senha</Text>
                     </TouchableOpacity>
                 </View>
