@@ -11,6 +11,7 @@ export function Button(props) {
 const estilo = StyleSheet.create({
     fundo: {
         height:50,
+        width:'100%',
         display:'flex',
         justifyContent:'center',
         alignItems:'center',

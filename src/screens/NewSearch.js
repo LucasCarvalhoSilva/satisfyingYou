@@ -7,61 +7,43 @@ import { useState } from "react"
 import { Button } from "../components/Button"
 import { ErrorMessage } from "../components/ErrorMessage"
 
-export function Login(props) {
+export function NewSearch(props) {
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [errMessage, setErrMessage] = useState('')
-
-    function goToRecovery(){
-        props.navigation.navigate('RecoveryPassword')
-    }
-
-    function goToCreate(){
-        props.navigation.navigate('CreateAccount')
-    }
-
-    function goToHome(){
-        props.navigation.navigate('Home')
-    }
-
+    const [nome, setNome] = useState('')
+    const [date, setDate] = useState('')
+    
     return (
         <View style={estilo.container}>
             <View style={estilo.content}>
-                <View style={estilo.titleWrapper}>
-                    <Title title='Satisfaying.you' />
-                    <Icon name="sentiment-satisfied" size={48} color="#FFFFFF" />
-                </View>
                 <View>
                     <View style={estilo.formWrapper}>
-                        <Label text='E-mail'/>
+                        <Label text='Nome'/>
                         <Input 
-                            action={setEmail} 
-                            text={email}
-                            placeholder='jurandir.pereira@hotmail.com'
-                            type="email-address"
-                            />
-                        
+                            action={setNome} 
+                            text={nome}
+                            type="text"
+                            />   
                     </View>
+
                     <View style={estilo.formWrapper}>
 
-                        <Label text='Senha'/>
+                        <Label text='Data'/>
                         <Input 
-                            action={setPassword} 
-                            text={password}
-                            placeholder='**********'
-                            type="default"
-                            secure
-                            />
-                        <ErrorMessage text={errMessage}/>
+                            action={setDate} 
+                            text={date}
+                            type="date"
+                        />
                     </View>
-                    <Button title="Entrar" action={goToHome}/>
-                    <TouchableOpacity style={estilo.btnCreateAccount} onPress={goToCreate}>
-                        <Text style={estilo.btnText}>Criar minha conta</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={estilo.btnPasswordRecovery} onPress={goToRecovery}>
-                        <Text style={estilo.btnText}>Esqueci minha senha</Text>
-                    </TouchableOpacity>
+
+                    <View style={estilo.formWrapper}>
+
+                        <Label text='Imagem'/>
+                        {/* ENCONTRAR MODULO PARA POR IMAGEM DA GALERIA*/}
+                    </View>
+
+
+                    <Button title="Cadastrar"/>
+                    
                 </View>
             </View>      
         </View>
