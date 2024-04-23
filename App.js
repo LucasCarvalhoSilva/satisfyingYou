@@ -7,6 +7,7 @@ import { NewSearch } from "./src/screens/NewSearch";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { View, TouchableOpacity, Text ,StyleSheet } from "react-native"
+import { Drawer } from "./src/screens/Drawer";
 
 
 
@@ -21,6 +22,7 @@ export function App() {
         <Stack.Screen name="RecoveryPassword" component={RecoveryPassword} options={{ headerTitle: 'Recuperação de Senha'}} />
         <Stack.Screen name="CreateAccount" component={CreateAccount} options={{ headerTitle: 'Nova Conta'}} />
         <Stack.Screen name="Home" component={Home} options={{ headerTitle: 'Home'}} />
+        <Stack.Screen name="Drawer" component={Drawer} options={{ headerShown: false }} />
         <Stack.Screen name="NewSearch" component={NewSearch} options={{ headerTitle: 'Nova Pesquisa'}} />
       </Stack.Navigator>
     </NavigationContainer>

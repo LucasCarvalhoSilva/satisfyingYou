@@ -22,7 +22,7 @@ export function Login(props) {
     }
 
     function goToHome(){
-        props.navigation.navigate('Home')
+        props.navigation.navigate('Drawer')
     }
 
     return (
