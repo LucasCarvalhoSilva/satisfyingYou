@@ -13,6 +13,10 @@ export function Home(props) {
         props.navigation.navigate('NewSearch')
     }
 
+    function goToModifySearch() {
+        props.navigation.navigate('ModifySearch')
+    }
+
     return (
         <View style={estilo.container}>
             <View style={estilo.content}>
@@ -21,7 +25,7 @@ export function Home(props) {
                 </View>
 
                 <ScrollView horizontal={true} style={estilo.cardsContainer}>
-                    <Card style={estilo.card}>
+                    <Card style={estilo.card} onPress={goToModifySearch}>
                         <Card.Content style={estilo.cardContent}>
                             <Icon name='devices' size={100} color='#704141' />
                             <Title style={estilo.cardTitle}>SECOMP 2023</Title>
@@ -30,7 +34,7 @@ export function Home(props) {
                     </Card>
 
                     <Card style={estilo.card}>
-                        <Card.Content style={estilo.cardContent}>
+                        <Card.Content style={estilo.cardContent} onPress={goToModifySearch}>
                             <Icon name='groups' size={100} color='#383838' />
                             <Title style={estilo.cardTitle}>UBUNTU 2022</Title>
                             <Text style={estilo.cardText}>05/06/2022</Text>
@@ -38,7 +42,7 @@ export function Home(props) {
                     </Card>
 
                     <Card style={estilo.card}>
-                        <Card.Content style={estilo.cardContent}>
+                        <Card.Content style={estilo.cardContent} onPress={goToModifySearch}>
                             <Icon name='woman' size={100} color='#D71616' />
                             <Title style={estilo.cardTitle}>MENINAS CPU</Title>
                             <Text style={estilo.cardText}>01/04/2022</Text>
@@ -46,7 +50,7 @@ export function Home(props) {
                     </Card>
 
                     <Card style={estilo.card}>
-                        <Card.Content style={estilo.cardContent}>
+                        <Card.Content style={estilo.cardContent} onPress={goToModifySearch}>
                             <Icon name='umbrella' size={100} color='#383838' />
                             <Title style={estilo.cardTitle}>COTB</Title>
                             <Text style={estilo.cardText}>01/04/2022</Text>
@@ -54,7 +58,7 @@ export function Home(props) {
                     </Card>
 
                     <Card style={estilo.card}>
-                        <Card.Content style={estilo.cardContent}>
+                        <Card.Content style={estilo.cardContent} onPress={goToModifySearch}>
                             <Icon name='groups' size={100} color='#383838' />
                             <Title style={estilo.cardTitle}>CARNAVAL</Title>
                             <Text style={estilo.cardText}>15/02/2020</Text>

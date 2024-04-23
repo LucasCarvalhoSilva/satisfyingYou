@@ -1,6 +1,4 @@
 import { View, TouchableOpacity, Text ,StyleSheet } from "react-native"
-import { Title } from "../components/Title"
-import Icon from 'react-native-vector-icons/MaterialIcons'
 import { Label } from "../components/Label"
 import { Input } from "../components/Input"
 import { useState } from "react"
