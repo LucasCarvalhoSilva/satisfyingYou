@@ -13,7 +13,7 @@ export function CustomDrawer(props) {
                 <Text style={estilo.texto}>usuario@dominio.com</Text>
                 <Divider style={{ margin: 20, borderWidth: 0.5, borderColor: 'white' }} />
                 <DrawerItem
-                    label="Oi"
+                    label="Pesquisa"
                     icon={({ color, size }) => <Icon name="description" size={50} color={'white'} />} 
                     labelStyle={estilo.texto}
                 />
