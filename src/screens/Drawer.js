@@ -6,10 +6,15 @@ import {CustomDrawer} from "../components/CustomDrawer";
 const DrawerNavigator = createDrawerNavigator();
 
 export function Drawer(props) {
+    
+    function goToHome(){
+        props.navigation.navigate('Home')
+    }
+
     return (
         <DrawerNavigator.Navigator screenOptions={estilo.drw} 
         drawerContent={(props)=> <CustomDrawer {...props}/>}>
-            <DrawerNavigator.Screen name="Pesquisas" component={Home} />
+            <DrawerNavigator.Screen name= "Home"component={Home} style={estilo.texto} onPress={goToHome} options={{title:''}}/>
         </DrawerNavigator.Navigator>
     );
 }
@@ -17,13 +22,15 @@ export function Drawer(props) {
 const estilo = StyleSheet.create({
     drw:{
         drawerStyle:{
-            backgroundColor:'#2B1F5C'
+            backgroundColor:'#000000',
+            color:'#FFFFFF'
         }
 
     },
     texto: {
         fontSize: 24,
         fontFamily: 'AveriaLibre-Regular',
-        color: '#5555FF'
+        color: '#FFFFFF',
+
       },
 })

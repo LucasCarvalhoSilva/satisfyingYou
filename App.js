@@ -10,9 +10,6 @@ import { View, TouchableOpacity, Text ,StyleSheet } from "react-native"
 import { ModifySearch } from "./src/screens/ModifySearch";
 import { Drawer } from "./src/screens/Drawer";
 
-
-
-
 const Stack = createStackNavigator();
 
 export function App() {
