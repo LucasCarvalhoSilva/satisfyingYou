@@ -13,6 +13,7 @@ import { SearchActions } from "./src/screens/SearchActions";
 import { Acknowledgment } from "./src/screens/Acknowledgment";
 import { Search } from "./src/screens/Search";
 import { Report } from "./src/screens/Report";
+import { Drawer } from "./src/screens/Drawer";
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,7 @@ export function App() {
         <Stack.Screen name="RecoveryPassword" component={RecoveryPassword} options={{ headerTitle: 'Recuperação de Senha'}} />
         <Stack.Screen name="CreateAccount" component={CreateAccount} options={{ headerTitle: 'Nova Conta'}} />
         <Stack.Screen name="Home" component={Home} options={{ headerTitle: 'Home'}} />
+        <Stack.Screen name="Drawer" component={Drawer} options={{ headerShown: false }} />
         <Stack.Screen name="NewSearch" component={NewSearch} options={{ headerTitle: 'Nova Pesquisa'}} />
         <Stack.Screen name="SearchActions" component={SearchActions} options={{ headerTitle: 'SECOMP 2023'}} />
         <Stack.Screen name="ModifySearch" component={ModifySearch} options={{ headerTitle: 'Modificar Pesquisa'}} />

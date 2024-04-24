@@ -29,7 +29,7 @@ export function Login(props) {
 
     function goToHome(){
         if(checkEmail()) {
-            props.navigation.navigate('Home')
+            props.navigation.navigate('Drawer')
         } else {
             setErrMessage('Email e/ou senha inválidos')
         }
