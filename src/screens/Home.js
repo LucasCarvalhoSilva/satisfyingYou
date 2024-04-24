@@ -4,6 +4,13 @@ import { Searchbar, Card, Title } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Button } from '../components/Button';
 
+let conteudoCards = [
+    {titulo: 'SECOMP 2023', data: '10/10/2023',icon: 'devices',color: '#704141'},
+    {titulo: 'UBUNTU 2022', data: '05/06/2022',icon: 'groups',color:'#383838'},
+    {titulo: 'MENINAS CPU', data: '01/04/2022',icon: 'woman',color:'#D71616'},
+    {titulo: 'COTB', data: '01/04/2022',icon: 'umbrella',color:'#37BD6D'},
+    {titulo: 'CARNAVAL', data: '15/02/2020',icon: 'celebration',color:'#C60EB3'}
+]
 export function Home(props) {
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -13,57 +20,32 @@ export function Home(props) {
         props.navigation.navigate('NewSearch')
     }
 
-    function goToModifySearch() {
-        props.navigation.navigate('ModifySearch')
+    function goToModifySearch(titulo, data, icon) {
+        props.navigation.navigate('ModifySearch', { titulo, data, icon });
     }
+    
 
     return (
+
+        
         <View style={estilo.container}>
+            
             <View style={estilo.content}>
                 <View>
                     <Searchbar placeholder="Insira o termo de busca..." onChangeText={onChangeSearch} value={searchQuery} />
                 </View>
 
                 <ScrollView horizontal={true} style={estilo.cardsContainer}>
-                    <Card style={estilo.card} onPress={goToModifySearch}>
-                        <Card.Content style={estilo.cardContent}>
-                            <Icon name='devices' size={100} color='#704141' />
-                            <Title style={estilo.cardTitle}>SECOMP 2023</Title>
-                            <Text style={estilo.cardText}>10/10/2023</Text>
-                        </Card.Content>
-                    </Card>
-
-                    <Card style={estilo.card}>
-                        <Card.Content style={estilo.cardContent} onPress={goToModifySearch}>
-                            <Icon name='groups' size={100} color='#383838' />
-                            <Title style={estilo.cardTitle}>UBUNTU 2022</Title>
-                            <Text style={estilo.cardText}>05/06/2022</Text>
-                        </Card.Content>
-                    </Card>
-
-                    <Card style={estilo.card}>
-                        <Card.Content style={estilo.cardContent} onPress={goToModifySearch}>
-                            <Icon name='woman' size={100} color='#D71616' />
-                            <Title style={estilo.cardTitle}>MENINAS CPU</Title>
-                            <Text style={estilo.cardText}>01/04/2022</Text>
-                        </Card.Content>
-                    </Card>
-
-                    <Card style={estilo.card}>
-                        <Card.Content style={estilo.cardContent} onPress={goToModifySearch}>
-                            <Icon name='umbrella' size={100} color='#383838' />
-                            <Title style={estilo.cardTitle}>COTB</Title>
-                            <Text style={estilo.cardText}>01/04/2022</Text>
-                        </Card.Content>
-                    </Card>
-
-                    <Card style={estilo.card}>
-                        <Card.Content style={estilo.cardContent} onPress={goToModifySearch}>
-                            <Icon name='groups' size={100} color='#383838' />
-                            <Title style={estilo.cardTitle}>CARNAVAL</Title>
-                            <Text style={estilo.cardText}>15/02/2020</Text>
-                        </Card.Content>
-                    </Card>
+                { conteudoCards.map((card,i) =>(
+                        <Card style={estilo.card} onPress={() => goToModifySearch(card.titulo,card.data,card.icon)} key={i}>
+                            <Card.Content style={estilo.cardContent}>
+                                <Icon name={card.icon} size={100} color={card.color} />
+                                <Title style={estilo.cardTitle}>{card.titulo}</Title>
+                                <Text style={estilo.cardText}>{card.data}</Text>
+                            </Card.Content>
+                        </Card>
+                    ))
+                    }
                 </ScrollView>
 
                 <View style={estilo.buttonContainer}>

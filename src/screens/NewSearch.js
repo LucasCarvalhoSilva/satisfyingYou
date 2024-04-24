@@ -3,12 +3,19 @@ import { Label } from "../components/Label"
 import { Input } from "../components/Input"
 import { useState } from "react"
 import { Button } from "../components/Button"
+import { conteudoCards } from "./Home"
 
 export function NewSearch(props) {
 
     const [nome, setNome] = useState('')
     const [date, setDate] = useState('')
     
+    function addNewCard(novoTitulo, novaData) {
+        const novoCard = { titulo: novoTitulo, data: novaData, icon: 'add', color: '#000000' }; 
+        conteudoCards = [...conteudoCards, novoCard]; 
+        props.navigation.navigate('Home'); 
+    }
+
     return (
         <View style={estilo.container}>
             <View style={estilo.content}>
@@ -19,11 +26,10 @@ export function NewSearch(props) {
                             action={setNome} 
                             text={nome}
                             type="text"
-                            />   
+                        />   
                     </View>
-
+    
                     <View style={estilo.formWrapper}>
-
                         <Label text='Data'/>
                         <Input 
                             action={setDate} 
@@ -31,16 +37,14 @@ export function NewSearch(props) {
                             type="date"
                         />
                     </View>
-
+    
                     <View style={estilo.formWrapper}>
-
                         <Label text='Imagem'/>
                         {/* ENCONTRAR MODULO PARA POR IMAGEM DA GALERIA*/}
                     </View>
-
-
-                    <Button title="Cadastrar"/>
-                    
+    
+                    {/* Passando uma função de callback para onPress */}
+                    <Button title="Cadastrar" onPress={() => addNewCard()}/>
                 </View>
             </View>      
         </View>
