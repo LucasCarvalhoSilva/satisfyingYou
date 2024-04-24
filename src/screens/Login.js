@@ -13,6 +13,12 @@ export function Login(props) {
     const [password, setPassword] = useState('')
     const [errMessage, setErrMessage] = useState('')
 
+    const regex = /^[^@]+@[^@]+\.com$/
+
+    function checkEmail() {
+        return regex.test(email)
+    }
+
     function goToRecovery(){
         props.navigation.navigate('RecoveryPassword')
     }
@@ -22,7 +28,11 @@ export function Login(props) {
     }
 
     function goToHome(){
-        props.navigation.navigate('Home')
+        if(checkEmail()) {
+            props.navigation.navigate('Home')
+        } else {
+            setErrMessage('Email e/ou senha inválidos')
+        }
     }
 
     return (

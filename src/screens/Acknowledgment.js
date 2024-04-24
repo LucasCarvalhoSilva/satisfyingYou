@@ -1,16 +1,28 @@
 import { View, StyleSheet } from "react-native"
 import { Label } from "../components/Label"
+import { useEffect } from "react"
 
 
-export function CreateAccount() {
+export function Acknowledgment(props) {
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            goToSearch()
+        },3000)
+
+        return() => clearTimeout(timer)
+    },[props.navigation])
+
+    function goToSearch() {
+        props.navigation.navigate("Search")
+    }
 
     return (
         <View style={estilo.container}>
-            <View style={estilo.content}>
-                <Label>Obrigado por participar da pesquisa!</Label>
-                <Label>Aguardamos você no próximo ano!</Label>
-            </View>      
+            <View>
+                <Label text="Obrigado por participar da pesquisa!"/>
+                <Label text="Aguardamos você no próximo ano!"/>
+            </View>
         </View>
     )
 }
@@ -19,6 +31,8 @@ const estilo = StyleSheet.create({
     container: {
         backgroundColor:'#372775',
         display:'flex',
+        justifyContent:'center',
+        alignItems:'center',
         padding:20,
         height:'100%'
     },

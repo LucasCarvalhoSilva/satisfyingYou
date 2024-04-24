@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Text, StyleSheet } from 'react-native';
-import { Searchbar, Card, Title } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Searchbar } from 'react-native-paper';
 import { Button } from '../components/Button';
+import { ContentCard } from '../components/ContentCard';
 
 export function Home(props) {
     const [searchQuery, setSearchQuery] = useState('');
@@ -13,8 +13,8 @@ export function Home(props) {
         props.navigation.navigate('NewSearch')
     }
 
-    function goToModifySearch() {
-        props.navigation.navigate('ModifySearch')
+    function goToSearchActions() {
+        props.navigation.navigate('SearchActions')
     }
 
     return (
@@ -25,45 +25,12 @@ export function Home(props) {
                 </View>
 
                 <ScrollView horizontal={true} style={estilo.cardsContainer}>
-                    <Card style={estilo.card} onPress={goToModifySearch}>
-                        <Card.Content style={estilo.cardContent}>
-                            <Icon name='devices' size={100} color='#704141' />
-                            <Title style={estilo.cardTitle}>SECOMP 2023</Title>
-                            <Text style={estilo.cardText}>10/10/2023</Text>
-                        </Card.Content>
-                    </Card>
-
-                    <Card style={estilo.card}>
-                        <Card.Content style={estilo.cardContent} onPress={goToModifySearch}>
-                            <Icon name='groups' size={100} color='#383838' />
-                            <Title style={estilo.cardTitle}>UBUNTU 2022</Title>
-                            <Text style={estilo.cardText}>05/06/2022</Text>
-                        </Card.Content>
-                    </Card>
-
-                    <Card style={estilo.card}>
-                        <Card.Content style={estilo.cardContent} onPress={goToModifySearch}>
-                            <Icon name='woman' size={100} color='#D71616' />
-                            <Title style={estilo.cardTitle}>MENINAS CPU</Title>
-                            <Text style={estilo.cardText}>01/04/2022</Text>
-                        </Card.Content>
-                    </Card>
-
-                    <Card style={estilo.card}>
-                        <Card.Content style={estilo.cardContent} onPress={goToModifySearch}>
-                            <Icon name='umbrella' size={100} color='#383838' />
-                            <Title style={estilo.cardTitle}>COTB</Title>
-                            <Text style={estilo.cardText}>01/04/2022</Text>
-                        </Card.Content>
-                    </Card>
-
-                    <Card style={estilo.card}>
-                        <Card.Content style={estilo.cardContent} onPress={goToModifySearch}>
-                            <Icon name='groups' size={100} color='#383838' />
-                            <Title style={estilo.cardTitle}>CARNAVAL</Title>
-                            <Text style={estilo.cardText}>15/02/2020</Text>
-                        </Card.Content>
-                    </Card>
+                    <ContentCard iconName="devices" color='#704141' title="SECOMP 2023" text="10/10/2023" action={goToSearchActions}/>
+                    <ContentCard iconName="groups" color='#383838' title="UBUNTU 2022" text="05/06/2022" action={goToSearchActions}/>
+                    <ContentCard iconName="woman" color='#D71616' title="MENINAS CPU" text="01/04/2022"action={goToSearchActions}/>
+                    <ContentCard iconName="umbrella" color='#383838' title="COTB" text="01/04/2022" action={goToSearchActions}/>
+                    <ContentCard iconName="devices" color='#704141' title="SECOMP 2023" text="10/10/2023" action={goToSearchActions}/>
+                    <ContentCard iconName="groups" color='#383838' title="CARNAVAL" text="15/02/2020" action={goToSearchActions}/>              
                 </ScrollView>
 
                 <View style={estilo.buttonContainer}>
@@ -91,30 +58,8 @@ const estilo = StyleSheet.create({
     cardsContainer: {
         marginTop: 100,
     },
-    card: {
-        display: 'flex',
-        height: 200,
-        width: 200,
-        marginHorizontal: 16,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    cardContent: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-    },
-    cardTitle: {
-        fontFamily: 'AveriaLibre-Regular',
-        fontSize: 24,
-        marginBottom: 5,
-        color: '#3F92C5',
-    },
-    cardText: {
-        fontFamily: 'AveriaLibre-Regular',
-        fontSize: 14,
-        color: '#8B8B8B',
-    },
+    
+    
     buttonContainer: {
         marginTop: 50,
         alignItems: 'center',

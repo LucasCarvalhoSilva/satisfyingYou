@@ -5,12 +5,38 @@ import { useState } from "react"
 import { Button } from "../components/Button"
 import { ErrorMessage } from "../components/ErrorMessage"
 
-export function CreateAccount() {
+export function CreateAccount(props) {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [retryPassword, setRetryPassword] = useState('')
     const [errMessage, setErrMessage] = useState('')
+
+    const regex = /^[^@]+@[^@]+\.com$/
+
+    function checkEmail(props) {
+        return regex.test(email)
+    }
+
+    function checkIfPasswordAndRetryPasswordAreEquals() {
+        if (password === retryPassword ) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    function CreateUser() {
+        if(!checkEmail()){
+            setErrMessage('Email invalido')
+            return false
+        } else if(!checkIfPasswordAndRetryPasswordAreEquals()) {
+            setErrMessage('O campo repetir senha difere da senha')
+            return false
+        } else {
+            props.navigation.navigate('Login')
+        }
+    }
 
     return (
         <View style={estilo.container}>
@@ -50,7 +76,7 @@ export function CreateAccount() {
                             />
                     <ErrorMessage text={errMessage}/>
                     </View>
-                    <Button title="CADASTRAR"/>
+                    <Button title="CADASTRAR" action={CreateUser}/>
                 </View>
             </View>      
         </View>
