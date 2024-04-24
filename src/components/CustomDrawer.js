@@ -6,6 +6,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export function CustomDrawer(props) {
 
+    function goToHome(){
+        props.navigation.navigate('Home')
+    }
 
     return (
         <DrawerContentScrollView {...props} style={estilo.container}>
@@ -13,9 +16,10 @@ export function CustomDrawer(props) {
                 <Text style={estilo.texto}>usuario@dominio.com</Text>
                 <Divider style={{ margin: 20, borderWidth: 0.5, borderColor: 'white' }} />
                 <DrawerItem
-                    label="Pesquisa"
+                    label="Pesquisas"
                     icon={({ color, size }) => <Icon name="description" size={50} color={'white'} />} 
                     labelStyle={estilo.texto}
+                    onPress={goToHome}
                 />
             </View>
         </DrawerContentScrollView>

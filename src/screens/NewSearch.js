@@ -34,7 +34,7 @@ export function NewSearch(props) {
                         <Input 
                             action={setDate} 
                             text={date}
-                            type="date"
+                            type="default"
                         />
                     </View>
     

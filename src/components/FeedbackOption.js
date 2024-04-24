@@ -13,12 +13,12 @@ export function FeedbackOption(props) {
 
 const estilo = StyleSheet.create({
     fundo: {
-        height:50,
-        width:'100%',
+        height:200,
+        width:100,
         display:'flex',
         justifyContent:'center',
         alignItems:'center',
-        backgroundColor: '#49B976',
+        backgroundColor: 'transparent',
         border:'none',
     },
     texto: {

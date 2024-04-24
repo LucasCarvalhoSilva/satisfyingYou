@@ -7,10 +7,24 @@ import { useState } from "react"
 import { Button } from "../components/Button"
 import { ErrorMessage } from "../components/ErrorMessage"
 
-export function RecoveryPassword() {
+export function RecoveryPassword(props) {
 
     const [email, setEmail] = useState('')
     const [errMessage, setErrMessage] = useState('')
+
+    const regex = /^[^@]+@[^@]+\.com$/
+
+    function checkEmail(props) {
+        return regex.test(email)
+    }
+
+    function sendMailToRecoveryPassword(){
+        if(checkEmail()) {
+            props.navigation.navigate("Login")
+        } else {
+            setErrMessage('E-mail parece ser inválido')
+        }
+    }
 
     return (
         <View style={estilo.container}>
@@ -30,7 +44,7 @@ export function RecoveryPassword() {
                             />
                         <ErrorMessage text={errMessage}/>
                     </View>
-                    <Button title="RECUPERAR"/>
+                    <Button title="RECUPERAR" action={sendMailToRecoveryPassword}/>
                 </View>
             </View>      
         </View>

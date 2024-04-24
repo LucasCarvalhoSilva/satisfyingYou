@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Text, StyleSheet } from 'react-native';
-import { Searchbar, Card, Title } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Searchbar } from 'react-native-paper';
 import { Button } from '../components/Button';
+import { ContentCard } from '../components/ContentCard';
 
 let conteudoCards = [
     {titulo: 'SECOMP 2023', data: '10/10/2023',icon: 'devices',color: '#704141'},
@@ -11,6 +11,7 @@ let conteudoCards = [
     {titulo: 'COTB', data: '01/04/2022',icon: 'umbrella',color:'#37BD6D'},
     {titulo: 'CARNAVAL', data: '15/02/2020',icon: 'celebration',color:'#C60EB3'}
 ]
+
 export function Home(props) {
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -20,10 +21,10 @@ export function Home(props) {
         props.navigation.navigate('NewSearch')
     }
 
-    function goToModifySearch(titulo, data, icon) {
-        props.navigation.navigate('ModifySearch', { titulo, data, icon });
+    function goToSearchActions() {
+        props.navigation.navigate('SearchActions')
     }
-    
+
 
     return (
 
@@ -37,15 +38,9 @@ export function Home(props) {
 
                 <ScrollView horizontal={true} style={estilo.cardsContainer}>
                 { conteudoCards.map((card,i) =>(
-                        <Card style={estilo.card} onPress={() => goToModifySearch(card.titulo,card.data,card.icon)} key={i}>
-                            <Card.Content style={estilo.cardContent}>
-                                <Icon name={card.icon} size={100} color={card.color} />
-                                <Title style={estilo.cardTitle}>{card.titulo}</Title>
-                                <Text style={estilo.cardText}>{card.data}</Text>
-                            </Card.Content>
-                        </Card>
+                        <ContentCard iconName={card.icon} color={card.color} title={card.titulo} text={card.data} action={goToSearchActions} key={i}/>
                     ))
-                    }
+                }        
                 </ScrollView>
 
                 <View style={estilo.buttonContainer}>
@@ -73,30 +68,8 @@ const estilo = StyleSheet.create({
     cardsContainer: {
         marginTop: 100,
     },
-    card: {
-        display: 'flex',
-        height: 200,
-        width: 200,
-        marginHorizontal: 16,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    cardContent: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-    },
-    cardTitle: {
-        fontFamily: 'AveriaLibre-Regular',
-        fontSize: 24,
-        marginBottom: 5,
-        color: '#3F92C5',
-    },
-    cardText: {
-        fontFamily: 'AveriaLibre-Regular',
-        fontSize: 14,
-        color: '#8B8B8B',
-    },
+    
+    
     buttonContainer: {
         marginTop: 50,
         alignItems: 'center',
