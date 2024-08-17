@@ -4,14 +4,17 @@ import { Label } from "../components/Label"
 import { Input } from "../components/Input"
 import { useState } from "react"
 import { Button } from "../components/Button"
-
+import { Image } from "react-native"
+import { launchCamera, launchImageLibrary } from "react-native-image-picker"
 
 export function ModifySearch(props) {
 
     const [nome, setNome] = useState('')
     const [date, setDate] = useState('')
     const [modalVisible, setModalVisible] = useState(false)
-    
+    const [urlPhoto, setUrlPhoto] = useState('')
+    const [photo, setPhoto] = useState()
+
     const backToHome = () => {
         props.navigation.navigate('Home')
     }
@@ -28,6 +31,29 @@ export function ModifySearch(props) {
         props.navigation.navigate("Home")
     }
 
+    function captureImage(){
+        launchCamera({mediaType:'photo',cameraType:'back',quality:1})
+        .then((result)=>{
+            setUrlPhoto(result.assets[0].uri)
+            setPhoto(result.assets[0])
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+    }
+
+    function captureImageLibrary(){
+        launchImageLibrary({mediaType:'photo',cameraType:'back',quality:1})
+        .then((result)=>{
+            setUrlPhoto(result.assets[0].uri)
+            setPhoto(result.assets[0])
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+    }
+
+    
     return (
         <View style={estilo.container}>
             <Modal 
@@ -73,11 +99,19 @@ export function ModifySearch(props) {
                     <View style={estilo.formWrapper}>
 
                         <Label text='Imagem'/>
-                        {/* ENCONTRAR MODULO PARA POR IMAGEM DA GALERIA -> T2*/}
+                        {  
+                        urlPhoto ? 
+                            <TouchableOpacity onPress={captureImageLibrary}>
+                                <Image source={{uri: urlPhoto}} style={{width: 120, height: 120}}/>
+                            </TouchableOpacity>
+                            :
+                            null
+                        }
                     </View>
-
-
-                    <Button action={backToHome} title="SALVAR"/>
+                    <View style={estilo.botoes}>
+                        <Button action={captureImage} title="Camera"/>
+                        <Button action={backToHome} title="SALVAR"/>
+                    </View>
                     <TouchableOpacity style={estilo.deleteWrapper} onPress={openModal}>
                         <Icon name="delete-outline" size={48} color="#FFFFFF" />
                         <Label text='Apagar'/>
@@ -117,12 +151,15 @@ const estilo = StyleSheet.create({
         fontSize:24,
         color:'#FFFFFF',
     },
+    botoes:{
+        gap:5
+    },
     deleteWrapper: {
         display:'flex',
         alignItems:'center',
         justifyContent:'center',
         position:'absolute',
-        bottom:-200,
+        bottom:-100,
         right:20
     },
     modalWrapper: {
