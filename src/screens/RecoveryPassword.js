@@ -6,7 +6,7 @@ import { Input } from "../components/Input"
 import { useState } from "react"
 import { Button } from "../components/Button"
 import { ErrorMessage } from "../components/ErrorMessage"
-import { sendPasswordResetEmail } from "firebase/auth"
+import { sendPasswordResetEmail, fetchSignInMethodsForEmail } from "firebase/auth"
 import { auth_mod } from "../firebase/config"
 
 export function RecoveryPassword(props) {
@@ -20,18 +20,44 @@ export function RecoveryPassword(props) {
         return regex.test(email)
     }
 
-    function sendMailToRecoveryPassword(){
+
+    async function checkEmailIsRegistered(email) {
+        try {
+            const signInMethods = await fetchSignInMethodsForEmail(auth_mod, email);
+            console.log(signInMethods)
+            if (signInMethods.length > 0) {
+                console.log('Email já está cadastrado.');
+                return true;
+            } else {
+                console.log('Email não está cadastrado.');
+                return false;
+            }
+        } catch (error) {
+            console.error('Erro ao verificar o email', error);
+            return false;
+        }
+    }
+
+    async function sendMailToRecoveryPassword(){
 
         console.log(email)
-        sendPasswordResetEmail(auth_mod,email)
-        .then(()=>{
-            console.log("Email redefinição enviado com sucesso"+JSON.stringify(email))
-            props.navigation.navigate("Login")
-        })
-        .catch((error)=>{
-            console.log("Falha ao enviar email:"+JSON.stringify(error))
-            setErrMessage('E-mail parece ser inválido')
-        })
+        
+        const emailIsRegistered = await checkEmailIsRegistered(email)
+        console.log(emailIsRegistered)
+        if(emailIsRegistered) {
+            sendPasswordResetEmail(auth_mod,email)
+            .then(()=>{
+                console.log("Email redefinição enviado com sucesso"+JSON.stringify(email))
+                props.navigation.navigate("Login")
+            })
+            .catch((error)=>{
+                console.error("Falha ao enviar email:"+JSON.stringify(error))
+                setErrMessage('E-mail parece ser inválido')
+            })
+        } else(
+            console.error("email não registrado")
+        )
+        
     }
     
 
