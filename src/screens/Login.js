@@ -8,6 +8,8 @@ import { Button } from "../components/Button"
 import { ErrorMessage } from "../components/ErrorMessage"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth_mod } from "../firebase/config"
+import { useDispatch } from "react-redux"
+import { reducerSetUser } from "../../redux/userSlice"
 
 export function Login(props) {
 
@@ -16,6 +18,8 @@ export function Login(props) {
     const [errMessage, setErrMessage] = useState('')
 
     const regex = /^[^@]+@[^@]+\.com$/
+
+    const dispatch = useDispatch()
 
     function checkEmail() {
         return regex.test(email)
@@ -41,6 +45,9 @@ export function Login(props) {
         signInWithEmailAndPassword(auth_mod,email,password)
         .then((userLogged)=>{
             console.log("Usuario autenticado!"+JSON.stringify(userLogged))
+            const userId = userLogged.user.uid
+            console.log("ID DO USUARIO LOGADO ==>" , userId)
+            dispatch(reducerSetUser({id: userId, email: email}))
             props.navigation.navigate('Drawer')
         })
         .catch((error)=>{
