@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { View, ScrollView, Text, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, Text, StyleSheet, FlatList } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { Button } from '../components/Button';
 import { ContentCard } from '../components/ContentCard';
 import { useSelector } from 'react-redux'
-
+import { initializeFirestore, collection, query, onSnapshot } from "firebase/firestore"
+import { app } from "../firebase/config"
 
 let conteudoCards = [
     {titulo: 'SECOMP 2023', data: '10/10/2023',icon: 'devices',color: '#704141'},
@@ -15,8 +16,29 @@ let conteudoCards = [
 ]
 
 export function Home(props) {
+    
     const userId = useSelector((state) => state.user.id)
     const userEmail = useSelector((state) => state.user.email)
+    const db = initializeFirestore(app, {experimentalForceLongPolling: true})
+    const searchCollection = collection(db, "search")
+    const [searchList, setSearchList] = useState()
+
+    useEffect(() => {
+        const q = query(searchCollection)
+        const unsubscribe = onSnapshot(q,(snapShot) => {
+            const searchs = []
+            snapShot.forEach((doc) => {
+                if(doc.data().userId == userId) {
+                    searchs.push({
+                        id: doc.id,
+                        ...doc.data()
+                    })
+                }
+            })
+            setSearchList(searchs)
+        })
+    },[])
+
     
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -32,23 +54,34 @@ export function Home(props) {
         props.navigation.navigate('SearchActions')
     }
 
-
-    return (
-
+    const renderCard = ({item}) => {
+        console.log(item)
         
+        return (
+            <ContentCard
+                iconName={"devices"}
+                color={"#704141"}
+                title={item.name}
+                text={item.date}
+                action={goToSearchActions}
+            />
+        )
+    }
+
+    return (  
         <View style={estilo.container}>
-            
             <View style={estilo.content}>
                 <View>
                     <Searchbar placeholder="Insira o termo de busca..." onChangeText={onChangeSearch} value={searchQuery} />
                 </View>
+                <FlatList 
+                    data={searchList} 
+                    renderItem={renderCard}
+                    horizontal={true}
+                    style={estilo.cardsContainer}
+                />
 
-                <ScrollView horizontal={true} style={estilo.cardsContainer}>
-                { conteudoCards.map((card,i) =>(
-                        <ContentCard iconName={card.icon} color={card.color} title={card.titulo} text={card.data} action={goToSearchActions} key={i}/>
-                    ))
-                }        
-                </ScrollView>
+
 
                 <View style={estilo.buttonContainer}>
                     <Button title="Nova Pesquisa" action={goToNewSearch}/>
