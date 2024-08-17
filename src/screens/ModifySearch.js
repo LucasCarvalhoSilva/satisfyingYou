@@ -2,12 +2,19 @@ import { View, TouchableOpacity, Text ,StyleSheet, Modal } from "react-native"
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { Label } from "../components/Label"
 import { Input } from "../components/Input"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "../components/Button"
 import { Image } from "react-native"
 import { launchCamera, launchImageLibrary } from "react-native-image-picker"
+import { useSelector } from 'react-redux'
 
 export function ModifySearch(props) {
+    const searchID = useSelector((state) => state.search.id)
+
+    useEffect(() => {
+        console.log(searchID)
+    },[]) 
+
 
     const [nome, setNome] = useState('')
     const [date, setDate] = useState('')

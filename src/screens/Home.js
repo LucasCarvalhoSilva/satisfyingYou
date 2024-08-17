@@ -6,6 +6,8 @@ import { ContentCard } from '../components/ContentCard';
 import { useSelector } from 'react-redux'
 import { initializeFirestore, collection, query, onSnapshot } from "firebase/firestore"
 import { app } from "../firebase/config"
+import { useDispatch } from "react-redux"
+import { reducerSetSearch } from '../../redux/searchSlice';
 
 let conteudoCards = [
     {titulo: 'SECOMP 2023', data: '10/10/2023',icon: 'devices',color: '#704141'},
@@ -16,7 +18,7 @@ let conteudoCards = [
 ]
 
 export function Home(props) {
-    
+    const dispatch = useDispatch()
     const userId = useSelector((state) => state.user.id)
     const userEmail = useSelector((state) => state.user.email)
     const db = initializeFirestore(app, {experimentalForceLongPolling: true})
@@ -50,7 +52,9 @@ export function Home(props) {
         props.navigation.navigate('NewSearch')
     }
 
-    function goToSearchActions() {
+    function goToSearchActions(id) {
+        console.log("ID DO ITEM QUE CLIQUEI ==>", id)
+        dispatch(reducerSetSearch({id: id}))
         props.navigation.navigate('SearchActions')
     }
 
@@ -63,7 +67,7 @@ export function Home(props) {
                 color={"#704141"}
                 title={item.name}
                 text={item.date}
-                action={goToSearchActions}
+                action = {() => goToSearchActions(item.id)}
             />
         )
     }
@@ -78,6 +82,7 @@ export function Home(props) {
                     data={searchList} 
                     renderItem={renderCard}
                     horizontal={true}
+                    keyExtractor={search => search.id}
                     style={estilo.cardsContainer}
                 />
 
