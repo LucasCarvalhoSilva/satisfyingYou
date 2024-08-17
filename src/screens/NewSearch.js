@@ -25,7 +25,7 @@ export function NewSearch(props) {
                         <Input 
                             action={setNome} 
                             text={nome}
-                            type="text"
+                            type="default"
                         />   
                     </View>
     

@@ -3,6 +3,8 @@ import { View, ScrollView, Text, StyleSheet } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { Button } from '../components/Button';
 import { ContentCard } from '../components/ContentCard';
+import { useSelector } from 'react-redux'
+
 
 let conteudoCards = [
     {titulo: 'SECOMP 2023', data: '10/10/2023',icon: 'devices',color: '#704141'},
@@ -13,11 +15,16 @@ let conteudoCards = [
 ]
 
 export function Home(props) {
+    const userId = useSelector((state) => state.user.id)
+    const userEmail = useSelector((state) => state.user.email)
+    
     const [searchQuery, setSearchQuery] = useState('');
 
     const onChangeSearch = query => setSearchQuery(query);
 
     function goToNewSearch(){
+        console.log(userId)
+        console.log(userEmail) 
         props.navigation.navigate('NewSearch')
     }
 

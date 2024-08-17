@@ -13,26 +13,30 @@ import { SearchActions } from "./src/screens/SearchActions";
 import { Acknowledgment } from "./src/screens/Acknowledgment";
 import { Search } from "./src/screens/Search";
 import { Report } from "./src/screens/Report";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 const Stack = createStackNavigator();
 
 export function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login" screenOptions={estilos.navegacao}>
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-        <Stack.Screen name="RecoveryPassword" component={RecoveryPassword} options={{ headerTitle: 'Recuperação de Senha'}} />
-        <Stack.Screen name="CreateAccount" component={CreateAccount} options={{ headerTitle: 'Nova Conta'}} />
-        <Stack.Screen name="Home" component={Home} options={{ headerTitle: 'Home'}} />
-        <Stack.Screen name="Drawer" component={Drawer} options={{ headerShown: false }} screenOptions={estilos.navegacao} />
-        <Stack.Screen name="NewSearch" component={NewSearch} options={{ headerTitle: 'Nova Pesquisa'}} />
-        <Stack.Screen name="SearchActions" component={SearchActions} options={{ headerTitle: 'SECOMP 2023'}} />
-        <Stack.Screen name="ModifySearch" component={ModifySearch} options={{ headerTitle: 'Modificar Pesquisa'}} />
-        <Stack.Screen name="Search" component={Search} options={{ headerShown: false}} />
-        <Stack.Screen name="Acknowledgment" component={Acknowledgment} options={{ headerShown: false}} />
-        <Stack.Screen name="Report" component={Report} options={{ headerTitle: 'Relátorio'}} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login" screenOptions={estilos.navegacao}>
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name="RecoveryPassword" component={RecoveryPassword} options={{ headerTitle: 'Recuperação de Senha'}} />
+          <Stack.Screen name="CreateAccount" component={CreateAccount} options={{ headerTitle: 'Nova Conta'}} />
+          <Stack.Screen name="Home" component={Home} options={{ headerTitle: 'Home'}} />
+          <Stack.Screen name="Drawer" component={Drawer} options={{ headerShown: false }} screenOptions={estilos.navegacao} />
+          <Stack.Screen name="NewSearch" component={NewSearch} options={{ headerTitle: 'Nova Pesquisa'}} />
+          <Stack.Screen name="SearchActions" component={SearchActions} options={{ headerTitle: 'SECOMP 2023'}} />
+          <Stack.Screen name="ModifySearch" component={ModifySearch} options={{ headerTitle: 'Modificar Pesquisa'}} />
+          <Stack.Screen name="Search" component={Search} options={{ headerShown: false}} />
+          <Stack.Screen name="Acknowledgment" component={Acknowledgment} options={{ headerShown: false}} />
+          <Stack.Screen name="Report" component={Report} options={{ headerTitle: 'Relátorio'}} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
