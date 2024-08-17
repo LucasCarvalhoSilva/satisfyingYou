@@ -22,4 +22,4 @@ const auth_mod = initializeAuth(app, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage)
 });
 
-export {auth_mod}
+export {auth_mod, app}

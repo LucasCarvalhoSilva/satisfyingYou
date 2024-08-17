@@ -6,7 +6,15 @@ import { Button } from "../components/Button"
 import { conteudoCards } from "./Home"
 import { launchCamera, launchImageLibrary } from "react-native-image-picker"
 
+import { initializeFirestore, collection, addDoc } from "firebase/firestore"
+import { app } from "../firebase/config"
+import { useSelector } from 'react-redux'
+
+const db = initializeFirestore(app, {experimentalForceLongPolling: true})
+const searchCollection = collection(db, "search")
+
 export function NewSearch(props) {
+    const userId = useSelector((state) => state.user.id)
 
     const [nome, setNome] = useState('')
     const [date, setDate] = useState('')
@@ -14,10 +22,28 @@ export function NewSearch(props) {
     const [photo, setPhoto] = useState()
 
     
-    function addNewCard(novoTitulo, novaData) {
-        const novoCard = { titulo: novoTitulo, data: novaData, icon: 'add', color: '#000000' }; 
-        conteudoCards = [...conteudoCards, novoCard]; 
-        props.navigation.navigate('Home'); 
+    async function addNewSearch() {
+        console.log("Ao menos aqui chegou")
+        const searchDoc = {
+            name: nome,
+            date: date,
+            image: "ADICIONAR IMAGEM AQUI",
+            userId: userId
+        }
+
+
+        addDoc(searchCollection, searchDoc)
+        .then((docRef) => {
+            console.log("Documento Salvo com sucesso ==> ", docRef)
+            props.navigation.navigate('Home'); 
+        })
+        .catch((error) => {
+            console.error("Erro ao salvar documento", error)
+        })
+        
+        // const novoCard = { titulo: novoTitulo, data: novaData, icon: 'add', color: '#000000' }; 
+        // conteudoCards = [...conteudoCards, novoCard]; 
+        
     }
 
     function captureImage(){
@@ -76,12 +102,17 @@ export function NewSearch(props) {
                             null
                         }
                     </View>
+
+    
+                 
+                    
+
                         
                     <View style={estilo.botoes}>
                         <Button action={captureImage} title="Camera"/>
-                        <Button title="Cadastrar" onPress={() => addNewCard()}/>
+                        <Button title="Cadastrar" action={addNewSearch}/>
                     </View>
-                    
+                   
                 </View>
             </View>      
         </View>
