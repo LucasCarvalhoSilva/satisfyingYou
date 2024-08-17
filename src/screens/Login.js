@@ -6,6 +6,8 @@ import { Input } from "../components/Input"
 import { useState } from "react"
 import { Button } from "../components/Button"
 import { ErrorMessage } from "../components/ErrorMessage"
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { auth_mod } from "../firebase/config"
 
 export function Login(props) {
 
@@ -29,10 +31,21 @@ export function Login(props) {
 
     function goToHome(){
         if(checkEmail()) {
-            props.navigation.navigate('Drawer')
+            autentication();
         } else {
             setErrMessage('Email e/ou senha inválidos')
         }
+    }
+
+    function autentication(){
+        signInWithEmailAndPassword(auth_mod,email,password)
+        .then((userLogged)=>{
+            console.log("Usuario autenticado!"+JSON.stringify(userLogged))
+            props.navigation.navigate('Drawer')
+        })
+        .catch((error)=>{
+            console.log("Falha ao autenticar:"+JSON.stringify(error))
+        });
     }
 
     return (

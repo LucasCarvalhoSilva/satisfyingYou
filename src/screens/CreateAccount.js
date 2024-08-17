@@ -4,6 +4,8 @@ import { Input } from "../components/Input"
 import { useState } from "react"
 import { Button } from "../components/Button"
 import { ErrorMessage } from "../components/ErrorMessage"
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth_mod } from '../firebase/config'
 
 export function CreateAccount(props) {
 
@@ -34,6 +36,17 @@ export function CreateAccount(props) {
             setErrMessage('O campo repetir senha difere da senha')
             return false
         } else {
+            createUserWithEmailAndPassword(auth_mod, email, password)
+            .then((userCredential) => {
+                // Signed up 
+                console.log("Usuario criado:"+JSON.stringify(userCredential))
+                // ...
+            })
+            .catch((error) => {
+
+                console.log("Erro ao criar usuario:"+JSON.stringify(error.message))
+                // ..
+            });
             props.navigation.navigate('Login')
         }
     }

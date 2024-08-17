@@ -6,6 +6,8 @@ import { Input } from "../components/Input"
 import { useState } from "react"
 import { Button } from "../components/Button"
 import { ErrorMessage } from "../components/ErrorMessage"
+import { sendPasswordResetEmail } from "firebase/auth"
+import { auth_mod } from "../firebase/config"
 
 export function RecoveryPassword(props) {
 
@@ -19,12 +21,19 @@ export function RecoveryPassword(props) {
     }
 
     function sendMailToRecoveryPassword(){
-        if(checkEmail()) {
+
+        console.log(email)
+        sendPasswordResetEmail(auth_mod,email)
+        .then(()=>{
+            console.log("Email redefinição enviado com sucesso"+JSON.stringify(email))
             props.navigation.navigate("Login")
-        } else {
+        })
+        .catch((error)=>{
+            console.log("Falha ao enviar email:"+JSON.stringify(error))
             setErrMessage('E-mail parece ser inválido')
-        }
+        })
     }
+    
 
     return (
         <View style={estilo.container}>
