@@ -5,6 +5,8 @@ import { useState } from "react"
 import { Button } from "../components/Button"
 import { conteudoCards } from "./Home"
 import { launchCamera, launchImageLibrary } from "react-native-image-picker"
+import { uploadBytes, ref } from "firebase/storage"
+import { storage } from "../firebase/config"
 
 import { initializeFirestore, collection, addDoc } from "firebase/firestore"
 import { app } from "../firebase/config"
@@ -30,7 +32,16 @@ export function NewSearch(props) {
             image: "ADICIONAR IMAGEM AQUI",
             userId: userId
         }
+        console.log("parou aqui")
+        
+        const image = ref(storage, "imagem.jpeg")
+        const file = await fetch(urlPhoto)
+        const blob = await file.blob()
+        
 
+        uploadBytes(image, blob, {contentType: 'image/jpeg'})
+        .then(()=>{console.log("Arquivo enviado com sucesso")})
+        .catch((error)=>{console.log("Falha ao enviar arquivo"+JSON.stringify(error))})
 
         addDoc(searchCollection, searchDoc)
         .then((docRef) => {
@@ -40,10 +51,10 @@ export function NewSearch(props) {
         .catch((error) => {
             console.error("Erro ao salvar documento", error)
         })
-        
+        console.log("parou aqui")
         // const novoCard = { titulo: novoTitulo, data: novaData, icon: 'add', color: '#000000' }; 
         // conteudoCards = [...conteudoCards, novoCard]; 
-        
+        console.log("Finalizou aq")
     }
 
     function captureImage(){
