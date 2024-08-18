@@ -29,7 +29,7 @@ export function App() {
           <Stack.Screen name="Home" component={Home} options={{ headerTitle: 'Home'}} />
           <Stack.Screen name="Drawer" component={Drawer} options={{ headerShown: false }} screenOptions={estilos.navegacao} />
           <Stack.Screen name="NewSearch" component={NewSearch} options={{ headerTitle: 'Nova Pesquisa'}} />
-          <Stack.Screen name="SearchActions" component={SearchActions} options={{ headerTitle: 'SECOMP 2023'}} />
+          <Stack.Screen name="SearchActions" component={SearchActions} options={{ headerTitle: 'PESQUISA'}} />
           <Stack.Screen name="ModifySearch" component={ModifySearch} options={{ headerTitle: 'Modificar Pesquisa'}} />
           <Stack.Screen name="Search" component={Search} options={{ headerShown: false}} />
           <Stack.Screen name="Acknowledgment" component={Acknowledgment} options={{ headerShown: false}} />

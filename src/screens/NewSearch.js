@@ -25,37 +25,48 @@ export function NewSearch(props) {
 
     
     async function addNewSearch() {
-        
-        const id = uuid.v4();
-        const imageRef = ref(storage, `${id}.jpeg`); // Nome do arquivo com o UUID gerado
-        const file = await fetch(urlPhoto)
-        const blob = await file.blob()
-        
-
-        uploadBytes(imageRef, blob, {contentType: 'image/jpeg'})
-        .then((result)=>{
-            console.log("Arquivo enviado com sucesso")
-            getDownloadURL(imageRef).then(
-                (url)=>{
-                    const searchDoc = {
-                    name: nome,
-                    date: date,
-                    imageUrl: url,
-                    userId: userId
-                }
-                addDoc(searchCollection, searchDoc)
-                .then((docRef) => {
-                    console.log("Documento Salvo com sucesso ==> ", docRef)
-                    props.navigation.navigate('Home'); 
-                })
-                .catch((error) => {
-                    console.error("Erro ao salvar documento", error)
-                })
-            })
-            .catch((error)=>console.log("Falha na url:")+JSON.stringify(error))
+        let imageUrl;
+    
+        if (!urlPhoto) {
+            // URL da foto está vazia, usamos a imagem padrão
+            const defaultImageRef = ref(storage, 'default.jpeg');
+            imageUrl = await getDownloadURL(defaultImageRef);
+        } else {
+            // URL da foto está presente, fazer o upload da imagem
+            const id = uuid.v4();
+            const imageRef = ref(storage, `${id}.jpeg`);
+            
+            try {
+                const response = await fetch(urlPhoto);
+                const blob = await response.blob();
+                
+                await uploadBytes(imageRef, blob, { contentType: 'image/jpeg' });
+                console.log("Arquivo enviado com sucesso");
+                
+                imageUrl = await getDownloadURL(imageRef);
+            } catch (error) {
+                console.error("Erro ao enviar arquivo ou obter URL:", error);
+                // Em caso de erro, podemos usar a imagem padrão
+                const defaultImageRef = ref(storage, 'default.jpeg');
+                imageUrl = await getDownloadURL(defaultImageRef);
             }
-        )
-        .catch((error)=>{console.log("Falha ao enviar arquivo"+JSON.stringify(error))})
+        }
+    
+        // Adiciona o documento ao Firestore com a URL da imagem
+        const searchDoc = {
+            name: nome,
+            date: date,
+            imageUrl: imageUrl,
+            userId: userId
+        };
+    
+        try {
+            const docRef = await addDoc(searchCollection, searchDoc);
+            console.log("Documento salvo com sucesso ==> ", docRef);
+            props.navigation.navigate('Home');
+        } catch (error) {
+            console.error("Erro ao salvar documento:", error);
+        }
     }
 
     function captureImage(){

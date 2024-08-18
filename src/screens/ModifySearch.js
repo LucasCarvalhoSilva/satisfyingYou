@@ -30,10 +30,23 @@ export function ModifySearch(props) {
     const [photo, setPhoto] = useState()
     
     useEffect(() => {
-        console.log(searchID, userId)
-        setNome(searchName)
-        setDate(searchDate)        
-    },[]) 
+        console.log(searchID, userId);
+        setNome(searchName);
+        setDate(searchDate);
+    
+        // Carregar a URL da imagem existente
+        const fetchImageUrl = async () => {
+            if (searchID) {
+                const searchRef = doc(db, "search", searchID);
+                const searchDoc = await getDoc(searchRef);
+                const imageUrl = searchDoc.data()?.imageUrl;
+                if (imageUrl) {
+                    setUrlPhoto(imageUrl);  // Definir a URL da imagem existente
+                }
+            }
+        };
+        fetchImageUrl();
+    }, [searchID]);
 
     const backToHome = () => {
         props.navigation.navigate('Home')
@@ -175,14 +188,15 @@ export function ModifySearch(props) {
                     <View style={estilo.formWrapper}>
 
                         <Label text='Imagem'/>
-                        {  
+                        
+                        {
                         urlPhoto ? 
                             <TouchableOpacity onPress={captureImageLibrary}>
-                                <Image source={{uri: urlPhoto}} style={{width: 120, height: 120}}/>
+                                <Image source={{uri: urlPhoto }} style={{ width: 120, height: 120 }} />
                             </TouchableOpacity>
                             :
-                            null
-                        }
+                            <Text>Sem imagem</Text>  // Mensagem alternativa se não houver imagem
+                    }
                     </View>
                     <View style={estilo.botoes}>
                         <Button action={captureImage} title="Camera"/>
