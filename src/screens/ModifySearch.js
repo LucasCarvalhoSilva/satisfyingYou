@@ -94,7 +94,10 @@ export function ModifySearch(props) {
         const searchDoc = await getDoc(searchRef);
         const oldImageUrl = searchDoc.data()?.imageUrl;
 
-        if (oldImageUrl) {
+        const defaultImageRef = ref(storage, 'default.jpeg');
+        defaulImageUrl = await getDownloadURL(defaultImageRef);
+
+        if (oldImageUrl && (oldImageUrl != defaulImageUrl)) {
             const oldImageRef = ref(storage, oldImageUrl);
             deleteObject(oldImageRef).then((result)=>{console.log("deu boa")}).catch((error)=>{console.log("error")})
             console.log("Imagem antiga apagada");
@@ -130,8 +133,21 @@ export function ModifySearch(props) {
         
     }
     
-    function deleteSearch() {
+    async function deleteSearch() {
         const searchRef = doc(db, "search", searchID)
+
+        const searchDoc = await getDoc(searchRef);
+        const oldImageUrl = searchDoc.data()?.imageUrl;
+
+        const defaultImageRef = ref(storage, 'default.jpeg');
+        imageUrl = await getDownloadURL(defaultImageRef);
+
+        if (oldImageUrl && (oldImageUrl != imageUrl)) {
+            const oldImageRef = ref(storage, oldImageUrl);
+            deleteObject(oldImageRef).then((result)=>{console.log("deu boa")}).catch((error)=>{console.log("error")})
+            console.log("Imagem antiga apagada");
+        }
+        
         deleteDoc(searchRef)
         .then((result) => {
             console.log("Pesquisa deletado com sucesso ==>" , result)
