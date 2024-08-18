@@ -9,14 +9,6 @@ import { app } from "../firebase/config"
 import { useDispatch } from "react-redux"
 import { reducerSetSearch } from '../../redux/searchSlice';
 
-let conteudoCards = [
-    {titulo: 'SECOMP 2023', data: '10/10/2023',icon: 'devices',color: '#704141'},
-    {titulo: 'UBUNTU 2022', data: '05/06/2022',icon: 'groups',color:'#383838'},
-    {titulo: 'MENINAS CPU', data: '01/04/2022',icon: 'woman',color:'#D71616'},
-    {titulo: 'COTB', data: '01/04/2022',icon: 'umbrella',color:'#37BD6D'},
-    {titulo: 'CARNAVAL', data: '15/02/2020',icon: 'celebration',color:'#C60EB3'}
-]
-
 export function Home(props) {
     const dispatch = useDispatch()
     const userId = useSelector((state) => state.user.id)
