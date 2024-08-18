@@ -52,9 +52,9 @@ export function Home(props) {
         props.navigation.navigate('NewSearch')
     }
 
-    function goToSearchActions(id) {
+    function goToSearchActions(id, name, date) {
         console.log("ID DO ITEM QUE CLIQUEI ==>", id)
-        dispatch(reducerSetSearch({id: id}))
+        dispatch(reducerSetSearch({id: id, date: date, name: name}))
         props.navigation.navigate('SearchActions')
     }
 
@@ -67,7 +67,7 @@ export function Home(props) {
                 color={"#704141"}
                 title={item.name}
                 text={item.date}
-                action = {() => goToSearchActions(item.id)}
+                action = {() => goToSearchActions(item.id, item.name, item.date)}
             />
         )
     }

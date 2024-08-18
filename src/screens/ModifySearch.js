@@ -7,20 +7,31 @@ import { Button } from "../components/Button"
 import { Image } from "react-native"
 import { launchCamera, launchImageLibrary } from "react-native-image-picker"
 import { useSelector } from 'react-redux'
+import { app } from "../firebase/config"
+import { initializeFirestore, collection, query, onSnapshot, updateDoc, doc } from "firebase/firestore"
+
 
 export function ModifySearch(props) {
     const searchID = useSelector((state) => state.search.id)
+    const searchName = useSelector((state) => state.search.name)
+    const searchDate = useSelector((state) => state.search.date)
+    const userId = useSelector((state) => state.user.id)
+    const db = initializeFirestore(app, {experimentalForceLongPolling: true})
+    const searchCollection = collection(db, "search")
 
-    useEffect(() => {
-        console.log(searchID)
-    },[]) 
-
-
+    
+    
     const [nome, setNome] = useState('')
     const [date, setDate] = useState('')
     const [modalVisible, setModalVisible] = useState(false)
     const [urlPhoto, setUrlPhoto] = useState('')
     const [photo, setPhoto] = useState()
+    
+    useEffect(() => {
+        console.log(searchID, userId)
+        setNome(searchName)
+        setDate(searchDate)        
+    },[]) 
 
     const backToHome = () => {
         props.navigation.navigate('Home')
@@ -60,6 +71,24 @@ export function ModifySearch(props) {
         })
     }
 
+    function changeSearch() {
+        const searchRef = doc(db, "search", searchID)
+
+        updateDoc(searchRef, {
+            name: nome,
+            date: date,
+            image: "ADICIONAR IMAGEM AQUI",
+            userId: userId
+        })
+        .then((result) => {
+            console.log("Pesquisa salva com sucesso ==>" , result)
+            backToHome()
+        })
+        .catch((error) => {
+            console.error("Erro ao editar pesquisa ==>", error)
+        })
+
+    }
     
     return (
         <View style={estilo.container}>
@@ -117,7 +146,7 @@ export function ModifySearch(props) {
                     </View>
                     <View style={estilo.botoes}>
                         <Button action={captureImage} title="Camera"/>
-                        <Button action={backToHome} title="SALVAR"/>
+                        <Button action={changeSearch} title="SALVAR"/>
                     </View>
                     <TouchableOpacity style={estilo.deleteWrapper} onPress={openModal}>
                         <Icon name="delete-outline" size={48} color="#FFFFFF" />

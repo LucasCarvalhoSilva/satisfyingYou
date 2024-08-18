@@ -10,6 +10,8 @@ export const searchSlice = createSlice({
   reducers: {
     reducerSetSearch: (state, action) => {
       state.id = action.payload.id
+      state.date = action.payload.date
+      state.name = action.payload.name
     }
   }
 
