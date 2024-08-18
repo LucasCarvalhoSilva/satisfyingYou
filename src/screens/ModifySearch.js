@@ -8,7 +8,7 @@ import { Image } from "react-native"
 import { launchCamera, launchImageLibrary } from "react-native-image-picker"
 import { useSelector } from 'react-redux'
 import { app } from "../firebase/config"
-import { initializeFirestore, collection, query, onSnapshot, updateDoc, doc } from "firebase/firestore"
+import { initializeFirestore, collection,  updateDoc, doc, deleteDoc } from "firebase/firestore"
 
 
 export function ModifySearch(props) {
@@ -45,10 +45,7 @@ export function ModifySearch(props) {
         setModalVisible(true)
     }
 
-    function deleteSearch() {
-        props.navigation.navigate("Home")
-    }
-
+    
     function captureImage(){
         launchCamera({mediaType:'photo',cameraType:'back',quality:1})
         .then((result)=>{
@@ -59,7 +56,7 @@ export function ModifySearch(props) {
             console.log(error)
         })
     }
-
+    
     function captureImageLibrary(){
         launchImageLibrary({mediaType:'photo',cameraType:'back',quality:1})
         .then((result)=>{
@@ -70,10 +67,10 @@ export function ModifySearch(props) {
             console.log(error)
         })
     }
-
+    
     function changeSearch() {
         const searchRef = doc(db, "search", searchID)
-
+        
         updateDoc(searchRef, {
             name: nome,
             date: date,
@@ -87,7 +84,20 @@ export function ModifySearch(props) {
         .catch((error) => {
             console.error("Erro ao editar pesquisa ==>", error)
         })
-
+        
+    }
+    
+    function deleteSearch() {
+        const searchRef = doc(db, "search", searchID)
+        deleteDoc(searchRef)
+        .then((result) => {
+            console.log("Pesquisa deletado com sucesso ==>" , result)
+            backToHome()
+        })
+        .catch((error) => {
+            console.error("Erro ao deletar pesquisa ==>", error)
+        })
+        props.navigation.navigate("Home")
     }
     
     return (
