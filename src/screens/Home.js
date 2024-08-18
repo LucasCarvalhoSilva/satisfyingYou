@@ -15,7 +15,7 @@ export function Home(props) {
     const userEmail = useSelector((state) => state.user.email)
     const db = initializeFirestore(app, {experimentalForceLongPolling: true})
     const searchCollection = collection(db, "search")
-    const [searchList, setSearchList] = useState()
+    const [searchList, setSearchList] = useState([])
 
     useEffect(() => {
         const q = query(searchCollection)
@@ -55,8 +55,7 @@ export function Home(props) {
         
         return (
             <ContentCard
-                iconName={"devices"}
-                color={"#704141"}
+                url={item.imageUrl}
                 title={item.name}
                 text={item.date}
                 action = {() => goToSearchActions(item.id, item.name, item.date)}

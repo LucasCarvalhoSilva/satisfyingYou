@@ -1,5 +1,5 @@
 import { Card, Title } from "react-native-paper";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text,Image } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
@@ -7,12 +7,12 @@ export function ContentCard(props) {
     return (
         <Card style={estilo.card} onPress={props.action}>
             <Card.Content style={estilo.cardContent}>
-                <Icon name={props.iconName} size={100} color={props.color} />
+                <Image source={{ uri: props.url }} style={estilo.image} />
                 <Title style={estilo.cardTitle}>{props.title}</Title>
                 <Text style={estilo.cardText}>{props.text}</Text>
             </Card.Content>
         </Card>
-    )
+    );
 }
 
 const estilo = StyleSheet.create({
@@ -39,5 +39,9 @@ const estilo = StyleSheet.create({
         fontFamily: 'AveriaLibre-Regular',
         fontSize: 14,
         color: '#8B8B8B',
+    },
+    image: {
+        width: 100,
+        height: 100,
     },
 })

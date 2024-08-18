@@ -5,10 +5,12 @@ import { useState } from "react"
 import { Button } from "../components/Button"
 import { conteudoCards } from "./Home"
 import { launchCamera, launchImageLibrary } from "react-native-image-picker"
+import { getDownloadURL, ref, uploadBytes} from "firebase/storage"
 
 import { initializeFirestore, collection, addDoc } from "firebase/firestore"
-import { app } from "../firebase/config"
+import { app, storage } from "../firebase/config"
 import { useSelector } from 'react-redux'
+import uuid from 'react-native-uuid';
 
 const db = initializeFirestore(app, {experimentalForceLongPolling: true})
 const searchCollection = collection(db, "search")
@@ -23,27 +25,37 @@ export function NewSearch(props) {
 
     
     async function addNewSearch() {
-        console.log("Ao menos aqui chegou")
-        const searchDoc = {
-            name: nome,
-            date: date,
-            image: "ADICIONAR IMAGEM AQUI",
-            userId: userId
-        }
-
-
-        addDoc(searchCollection, searchDoc)
-        .then((docRef) => {
-            console.log("Documento Salvo com sucesso ==> ", docRef)
-            props.navigation.navigate('Home'); 
-        })
-        .catch((error) => {
-            console.error("Erro ao salvar documento", error)
-        })
         
-        // const novoCard = { titulo: novoTitulo, data: novaData, icon: 'add', color: '#000000' }; 
-        // conteudoCards = [...conteudoCards, novoCard]; 
+        const id = uuid.v4();
+        const imageRef = ref(storage, `${id}.jpeg`); // Nome do arquivo com o UUID gerado
+        const file = await fetch(urlPhoto)
+        const blob = await file.blob()
         
+
+        uploadBytes(imageRef, blob, {contentType: 'image/jpeg'})
+        .then((result)=>{
+            console.log("Arquivo enviado com sucesso")
+            getDownloadURL(imageRef).then(
+                (url)=>{
+                    const searchDoc = {
+                    name: nome,
+                    date: date,
+                    imageUrl: url,
+                    userId: userId
+                }
+                addDoc(searchCollection, searchDoc)
+                .then((docRef) => {
+                    console.log("Documento Salvo com sucesso ==> ", docRef)
+                    props.navigation.navigate('Home'); 
+                })
+                .catch((error) => {
+                    console.error("Erro ao salvar documento", error)
+                })
+            })
+            .catch((error)=>console.log("Falha na url:")+JSON.stringify(error))
+            }
+        )
+        .catch((error)=>{console.log("Falha ao enviar arquivo"+JSON.stringify(error))})
     }
 
     function captureImage(){

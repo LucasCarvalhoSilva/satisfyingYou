@@ -7,8 +7,10 @@ import { Button } from "../components/Button"
 import { Image } from "react-native"
 import { launchCamera, launchImageLibrary } from "react-native-image-picker"
 import { useSelector } from 'react-redux'
-import { app } from "../firebase/config"
-import { initializeFirestore, collection,  updateDoc, doc, deleteDoc } from "firebase/firestore"
+import { app, storage } from "../firebase/config"
+import { initializeFirestore, collection,  updateDoc, doc, deleteDoc, getDoc } from "firebase/firestore"
+import  {getDownloadURL , uploadBytes , ref, deleteObject } from "firebase/storage"
+import uuid from 'react-native-uuid';
 
 
 export function ModifySearch(props) {
@@ -68,21 +70,49 @@ export function ModifySearch(props) {
         })
     }
     
-    function changeSearch() {
+    async function changeSearch() {
         const searchRef = doc(db, "search", searchID)
+
+        const id = uuid.v4();
+        const imageRef = ref(storage, `${id}.jpeg`); // Nome do arquivo com o UUID gerado
+        const file = await fetch(urlPhoto)
+        const blob = await file.blob()
         
-        updateDoc(searchRef, {
-            name: nome,
-            date: date,
-            image: "ADICIONAR IMAGEM AQUI",
-            userId: userId
-        })
-        .then((result) => {
-            console.log("Pesquisa salva com sucesso ==>" , result)
-            backToHome()
-        })
-        .catch((error) => {
-            console.error("Erro ao editar pesquisa ==>", error)
+        const searchDoc = await getDoc(searchRef);
+        const oldImageUrl = searchDoc.data()?.imageUrl;
+
+        if (oldImageUrl) {
+            const oldImageRef = ref(storage, oldImageUrl);
+            deleteObject(oldImageRef).then((result)=>{console.log("deu boa")}).catch((error)=>{console.log("error")})
+            console.log("Imagem antiga apagada");
+        }
+        
+        uploadBytes(imageRef, blob, {contentType: 'image/jpeg'})
+        .then((result)=>{
+            getDownloadURL(imageRef).then((url)=>{
+                
+
+                updateDoc(searchRef, {
+                    name: nome,
+                    date: date,
+                    imageUrl: url,
+                    userId: userId
+                })
+                .then((result) => {
+                    console.log("Pesquisa salva com sucesso ==>" , result)
+                    backToHome()
+                })
+                .catch((error) => {
+                    console.error("Erro ao editar pesquisa ==>", error)
+                })
+            })
+            .catch((error)=>{
+                console.log("falhar na url:"+JSON.stringify(error))
+            })
+           
+
+        }).catch((error)=>{
+            console.log("falha ao enviar arquivo")
         })
         
     }
